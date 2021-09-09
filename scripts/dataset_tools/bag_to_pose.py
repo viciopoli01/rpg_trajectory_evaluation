@@ -13,6 +13,7 @@ def extract(bagfile, pose_topic, msg_type, out_filename):
     with rosbag.Bag(bagfile, 'r') as bag:
         for (topic, msg, ts) in bag.read_messages(topics=str(pose_topic)):
             if msg_type == "PoseWithCovarianceStamped":
+                print(msg)
                 f.write('%.12f %.12f %.12f %.12f %.12f %.12f %.12f %.12f\n' %
                         (msg.header.stamp.to_sec(),
                          msg.pose.pose.position.x, msg.pose.pose.position.y,
@@ -28,6 +29,17 @@ def extract(bagfile, pose_topic, msg_type, out_filename):
                          msg.pose.position.z,
                          msg.pose.orientation.x, msg.pose.orientation.y,
                          msg.pose.orientation.z, msg.pose.orientation.w))
+            elif msg_type == "TransformStamped":
+                print(msg)
+                f.write('%.12f %.12f %.12f %.12f %.12f %.12f %.12f %.12f\n' %
+                        (msg.header.stamp.to_sec(),
+                         msg.transform.translation.x, 
+                         msg.transform.translation.y,
+                         msg.transform.translation.z,
+                         msg.transform.rotation.x, 
+                         msg.transform.rotation.y,
+                         msg.transform.rotation.z, 
+                         msg.transform.rotation.w))
             else:
                 assert False, "Unknown message type"
             n += 1
@@ -51,4 +63,5 @@ if __name__ == '__main__':
 
     print('Extract pose from bag '+args.bag+' in topic ' + args.topic)
     print('Saving to file '+out_fn)
+    print(args.msg_type)
     extract(args.bag, args.topic, args.msg_type, out_fn)

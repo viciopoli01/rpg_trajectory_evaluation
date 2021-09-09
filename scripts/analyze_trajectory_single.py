@@ -25,7 +25,8 @@ FORMAT = '.pdf'
 def analyze_multiple_trials(results_dir, est_type, n_trials,
                             recalculate_errors=False,
                             preset_boxplot_distances=[],
-                            preset_boxplot_percentages=[0.1, 0.2, 0.3, 0.4, 0.5],
+                            preset_boxplot_percentages=[
+                                0.1, 0.2, 0.3, 0.4, 0.5],
                             compute_odometry_error=True):
     traj_list = []
     mt_error = MulTrajError()
@@ -132,16 +133,16 @@ if __name__ == '__main__':
           "Going to analyze the results in {0}.".format(args.result_dir))
     print(Fore.YELLOW +
           "Will analyze estimate types: {0}".format(args.est_types))
-    print(Fore.YELLOW + 
+    print(Fore.YELLOW +
           "The plots will saved in {0}.".format(plots_dirs))
     n_trials = 1
     if args.mul_trials:
-        print(Fore.YELLOW + 
+        print(Fore.YELLOW +
               "We will ananlyze multiple trials #{0}".format(args.mul_trials))
         n_trials = args.mul_trials
         if len(args.mul_plot_idx) == 0:
             args.mul_plot_idx = (np.arange(args.mul_trials)).tolist()
-        print(Fore.YELLOW + 
+        print(Fore.YELLOW +
               "We will plot trials {0}.".format(args.mul_plot_idx))
     else:
         args.mul_plot_idx = [0]
@@ -305,4 +306,3 @@ if __name__ == '__main__':
     import subprocess as s
     s.call(['notify-send', 'rpg_trajectory_evaluation finished',
             'results in: {0}'.format(os.path.abspath(args.result_dir))])
-

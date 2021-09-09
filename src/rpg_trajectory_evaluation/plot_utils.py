@@ -31,6 +31,7 @@ def boxplot_compare(ax, xlabels,
     n_data = len(data)
     n_xlabel = len(xlabels)
     leg_handles = []
+    plot_handles = []
     leg_labels = []
     idx = 0
     for idx, d in enumerate(data):
@@ -43,7 +44,8 @@ def boxplot_compare(ax, xlabels,
         bp = ax.boxplot(d, 0, '', positions=positions, widths=widths)
         color_box(bp, data_colors[idx])
         tmp, = plt.plot([1, 1], c=data_colors[idx], alpha=0)
-        leg_handles.append(tmp)
+        leg_handles.append(bp)
+        plot_handles.append(tmp)
         leg_labels.append(data_labels[idx])
         idx += 1
 
@@ -54,8 +56,11 @@ def boxplot_compare(ax, xlabels,
     if legend:
         # ax.legend(leg_handles, leg_labels, bbox_to_anchor=(
             # 1.05, 1), loc=2, borderaxespad=0.)
-        ax.legend(leg_handles, leg_labels)
-    map(lambda x: x.set_visible(False), leg_handles)
+        # ax.legend(leg_handles, leg_labels)
+        ax.legend([element["boxes"][0] for element in leg_handles],
+                  [data_labels[idx] for idx, _ in enumerate(data)])
+                  
+    map(lambda x: x.set_visible(True), plot_handles)
 
 
 def plot_trajectory_top(ax, pos, color, name, alpha=1.0):

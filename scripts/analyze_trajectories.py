@@ -18,6 +18,7 @@ import plot_utils as pu
 import results_writer as res_writer
 from analyze_trajectory_single import analyze_multiple_trials
 from fn_constants import kNsToEstFnMapping, kNsToMatchFnMapping, kFnExt
+import matplotlib.colors as mcolors
 
 init(autoreset=True)
 
@@ -27,8 +28,9 @@ rc('text', usetex=True)
 FORMAT = '.pdf'
 
 def spec(N):                                             
-    t = np.linspace(-510, 510, N)                                              
-    return np.round(np.clip(np.stack([-t, 510-np.abs(t), t], axis=1), 0, 255)).astype("float32")/255
+    t = np.linspace(-510, 510, N)   
+    colors = list(mcolors.TABLEAU_COLORS)                                           
+    return colors # np.round(np.clip(np.stack([-t, 510-np.abs(t), t], axis=1), 200, 255)).astype("float32")/255
 
 PALLETE = spec(20)
 
